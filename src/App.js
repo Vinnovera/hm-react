@@ -1,43 +1,41 @@
 import React, { Component, Fragment } from 'react';
-import './App.css';
+import Counter from './Counter'
 
 class App extends Component {
 	state = {
-		counter: 0,
-		input: 'bleh',
-		valid: true
+		counters: [],
+		base: 1
 	}
 
-	decreaseCounter = () => this.setState({ counter: this.state.counter - 1 });
-	increaseCounter = () => this.setState({ counter: this.state.counter + 1 });
+	addCounter = () => this.setState(
+		{
+			counters: [
+				...this.state.counters,
+				Counter
+			]
+		}
+	);
 
-	handleInputChange = e => {
-		const value = e.target.value;
+	removeCounter = () => this.setState(
+		{
+			counters: [
+				...this.state.counters.slice(1)
+			]
+		}
+	);
 
-
-		this.setState({
-			input: value,
-			valid: value === 'hey'
-		});
-	}
+	increaseBase = () => this.setState({base: this.state.base + 1})
 
 	render() {
-		return (<Fragment>
-			<Button onClick={this.increaseCounter}>+</Button>
-			<Counter number={this.state.counter} />
-			<Button onClick={this.decreaseCounter}>-</Button>
-			<Input value={this.state.input} onChange={this.handleInputChange} valid={this.state.valid} />
-			{this.state.input}
-		</Fragment>);
+		return (
+			<Fragment>
+				{this.state.counters.map((Counter, i) => <Counter key={i} base={this.state.base}/>)}
+				<button onClick={this.addCounter}>Add</button>
+				<button onClick={this.removeCounter}>Remove</button>
+				<button onClick={this.increaseBase}>Increase base</button>
+			</Fragment>
+		)
 	}
 }
-
-const Button = ({ onClick, children }) => <button onClick={onClick}>{children}</button>;
-
-const Counter = ({ number }) => <span>{number}</span>;
-
-const Input = ({ value, onChange, valid }) => <input type="text" value={value} onChange={onChange} style={{
-	color: valid ? 'black' : 'red'
-}}/>;
 
 export default App;
