@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import Counter from './Counter'
+import Counter from './components/Counter/Counter'
+import './App.css'
 
 class App extends Component {
 	state = {
@@ -11,7 +12,7 @@ class App extends Component {
 		{
 			counters: [
 				...this.state.counters,
-				Counter
+				{ counter: 0 }
 			]
 		}
 	);
@@ -24,16 +25,38 @@ class App extends Component {
 		}
 	);
 
+	decreaseCounter = index => {
+		const counters = [...this.state.counters];
+		counters[index].counter--;
+
+		this.setState({ counters })
+	};
+
+	increaseCounter = index => {
+		const counters = [...this.state.counters];
+		counters[index].counter++;
+
+		this.setState({ counters })
+	};
+
 	increaseBase = () => this.setState({base: this.state.base + 1})
 
 	render() {
 		return (
-			<Fragment>
-				{this.state.counters.map((Counter, i) => <Counter key={i} base={this.state.base}/>)}
+			<section className="App">
+				{this.state.counters.map((counterState, i) =>
+					<Counter
+						counter={counterState.counter}
+						key={i}
+						base={this.state.base}
+						increaseCounter={() => this.increaseCounter(i)}
+						decreaseCounter={() => this.decreaseCounter(i)}
+					/>
+				)}
 				<button onClick={this.addCounter}>Add</button>
 				<button onClick={this.removeCounter}>Remove</button>
 				<button onClick={this.increaseBase}>Increase base</button>
-			</Fragment>
+			</section>
 		)
 	}
 }
