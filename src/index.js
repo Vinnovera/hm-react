@@ -1,45 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import AppContainer from './AppContainer';
+import { Provider } from 'react-redux'
 
-ReactDOM.render(<App/>, document.getElementById('root'));
-registerServiceWorker();
+import store from './store'
 
-/*
-function foo(arg1, arg2) {
-	return 'bar';
-}
-
-var foo = function(arg1, arg2) {
-	return 'bar';
-}
-
-// Arrow functions
-var subtract = (num1 = 1, num2 = 2) => num1 - num2;
-
-suctract(undef);
-
-// New cariables
-const foo = 'bar';
-let foo = 'bar';
-
-() => {
-	if (true) {
-		let foo = '';
-	}
-
-}
-
-// Destructuring
-const foo = {
-	key1: { subKey1: 'bar'},
-	key2: 'baz'
-}
-
-const { key1, key2 } = foo;
-
-const bar = ({ key1 }) => key1;
-
-bar(foo);*/
+ReactDOM.render((
+	<Provider store={store}>
+		<AppContainer/>
+	</Provider>
+), document.getElementById('root'));
