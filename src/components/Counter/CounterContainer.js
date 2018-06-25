@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
 import Counter from './Counter'
 
-import { increaseCounter, decreaseCounter } from "../../store/actions";
+import { increaseCounter, decreaseCounter } from "../../store/counters/actions";
+import {getCounterByIndex} from "../../store/counters/selectors";
 
 const mapStateToProps = (state, { index }) => ({
-	counter: state.counters[index].counter
+	counter: getCounterByIndex(state, index).counter
 });
 
 const mapDispatchToProps = (dispatch, { index }) => ({
