@@ -2,10 +2,10 @@ import { connect } from 'react-redux'
 import App from './App'
 
 import { fetchCounters, addCounter, removeCounter } from "./store/counters/actions";
-import {getCountersList, getCountersLoading} from "./store/counters/selectors";
+import { getCounterIdsList, getCountersLoading } from "./store/counters/selectors";
 
 const mapStateToProps = state => ({
-	counters: getCountersList(state),
+	counters: getCounterIdsList(state),
 	loading: getCountersLoading(state)
 });
 

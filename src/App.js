@@ -11,8 +11,8 @@ class App extends Component {
 		const { loading, counters, addCounter, removeCounter } = this.props
 		return (
 			<section className="App">
-				{counters.map((counterState, i) =>
-					<Counter index={i} />
+				{counters.map(id =>
+					<Counter id={id} />
 				)}
 				<button onClick={addCounter}>Add</button>
 				<button onClick={removeCounter}>Remove</button>

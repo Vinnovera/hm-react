@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getCounterById, getCounterIdsList} from "./selectors";
 
 export const fetchCounters = () => dispatch => {
 	dispatch(fetchStart())
@@ -18,25 +19,28 @@ export const fetchSuccess = counters => ({
 })
 
 export const addCounter = () => dispatch => (
-	axios.post('/api/counters', { counter: 0 }).then(({ data }) => {
-		dispatch(fetchCounters())
-	})
+	axios.post('/api/counters', { counter: 0 })
+		.then(() => dispatch(fetchCounters()))
 );
 
-export const removeCounter = () => ({
-	type: 'REMOVE'
-});
+export const removeCounter = () => (dispatch, getState) => {
+	const lastId = getCounterIdsList(getState()).pop()
+	axios.delete(`/api/counters/${lastId}`)
+		.then(() => dispatch(fetchCounters()))
+}
 
-export const increaseCounter = index => ({
-	type: 'INCREASE',
-	payload: {
-		index
-	}
-});
+export const increaseCounter = id => (dispatch, getState) => {
+	const counter = getCounterById(getState(), id).counter
+	axios.patch(
+		`/api/counters/${id}`,
+		{ counter: counter + 1 }
+	).then(() => dispatch(fetchCounters()))
+}
 
-export const decreaseCounter = index => ({
-	type: 'DECREASE',
-	payload: {
-		index
-	}
-});
+export const decreaseCounter = id => (dispatch, getState) => {
+	const counter = getCounterById(getState(), id).counter
+	axios.patch(
+		`/api/counters/${id}`,
+		{ counter: counter - 1 }
+	).then(() => dispatch(fetchCounters()))
+}
